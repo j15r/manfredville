@@ -7,13 +7,15 @@ Sprache des Projekts ist **Deutsch**: Oberfläche, Code-Kommentare, Commit-Nachr
 
 | Datei | Inhalt |
 |---|---|
-| `manfredville.html` | Das komplette Spiel: HTML, CSS (`<style>`) und ein einziger `<script>`-Block (~17 000 Zeilen). Kein Build, kein Server, keine Assets. Ältere Texte nennen sie `index.html`. |
+| `index.html` | Das komplette Spiel: HTML, CSS (`<style>`) und ein einziger `<script>`-Block (~17 000 Zeilen). Kein Build, kein Server, keine Assets. Hieß zwischenzeitlich `manfredville.html`. |
 | `status.md` | Aktueller Stand: Konzept, technische Entscheidungen, **Funktionsumfang**, Ideen. Zuerst lesen. |
 | `docs/architektur.md` | Architektur-Gesamtbild, alle „Technischen Hinweise“, Speicherformat, Testlehren. Nachschlagen, bevor ein Bereich geändert wird. |
 | `docs/runden-archiv.md` | Historie aller Entwicklungsrunden (neueste oben) und die Liste „Ausgeliefert“. |
 | `docs/offene-fragen.md` | Bewusste Setzungen je Runde, zu denen noch Rückmeldung fehlt. |
 | `tests/` | Playwright-Tests (`npm test`). |
-| `.github/workflows/pages.yml` | Veröffentlicht das Spiel nach grünen Tests als `index.html` auf GitHub Pages (https://j15r.github.io/manfredville/). |
+| `.github/workflows/tests.yml` | Führt bei jedem Push und Pull Request die Playwright-Tests aus. |
+
+GitHub Pages liefert `index.html` direkt aus dem Branch `main` aus: https://j15r.github.io/manfredville/ – jeder Push auf `main` ist damit sofort online. `.nojekyll` verhindert, dass GitHub die Markdown-Dateien durch Jekyll schickt.
 
 ## Grundregeln
 
@@ -56,7 +58,7 @@ npm test                         # alle Tests
 npx playwright test tests/smoke.spec.js
 ```
 
-- Tests öffnen `manfredville.html` direkt über `file://` und rufen Spielfunktionen per `page.evaluate` auf (Top-Level-Funktionen und `let`/`const` sind dort erreichbar).
+- Tests öffnen `index.html` direkt über `file://` und rufen Spielfunktionen per `page.evaluate` auf (Top-Level-Funktionen und `let`/`const` sind dort erreichbar).
 - Hilfen in `tests/helpers.js`: `openGame` (leert `localStorage`, sammelt JS-Fehler), `pauseLoop` (hält die Spielschleife an), `step(page, sekunden)` (simuliert mit `update(dt)`), `expectNoErrors`.
 - Jede neue Mechanik bekommt einen Test. Bis ins Ergebnis prüfen (z. B. Inselbestand statt Betriebspuffer), mit Gegenprobe. Weitere Testlehren: `docs/architektur.md` → „Testtechnischer Hinweis“.
 - Vor jedem Push: `npm test` muss grün sein.

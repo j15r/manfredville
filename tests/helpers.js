@@ -10,7 +10,7 @@ const path = require('path');
 const { pathToFileURL } = require('url');
 const { expect } = require('@playwright/test');
 
-const GAME_URL = pathToFileURL(path.join(__dirname, '..', 'manfredville.html')).href;
+const GAME_URL = pathToFileURL(path.join(__dirname, '..', 'index.html')).href;
 
 async function openGame(page) {
   const errors = [];

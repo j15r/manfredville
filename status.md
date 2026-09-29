@@ -1,6 +1,6 @@
 # Manfredville – Entwicklungsstatus
 
-> **Dokumentstruktur:** Diese Datei beschreibt den AKTUELLEN Stand (Konzept, Technik, Funktionsumfang, Ideen). Arbeitsregeln für Claude stehen in `CLAUDE.md`. Architektur-, Technik- und Testhinweise stehen in `docs/architektur.md`, die Historie aller Entwicklungsrunden in `docs/runden-archiv.md`, die offenen Fragen je Runde in `docs/offene-fragen.md`. Wo ältere Texte von `index.html` sprechen, ist die Spieldatei `manfredville.html` gemeint.
+> **Dokumentstruktur:** Diese Datei beschreibt den AKTUELLEN Stand (Konzept, Technik, Funktionsumfang, Ideen). Arbeitsregeln für Claude stehen in `CLAUDE.md`. Architektur-, Technik- und Testhinweise stehen in `docs/architektur.md`, die Historie aller Entwicklungsrunden in `docs/runden-archiv.md`, die offenen Fragen je Runde in `docs/offene-fragen.md`. Die Spieldatei heißt `index.html` (zwischenzeitlich `manfredville.html`).
 
 ## Konzept
 Aufbau-Strategiespiel als Mix aus Anno (Produktionsketten), Die Siedler (Warenfluss/Trägerlogistik über Straßennetz) und Age of Empires (später: Einheiten/Basisbau). Fokus des ersten Prototyps: Siedler-typische Trägerlogistik.
