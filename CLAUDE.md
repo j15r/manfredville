@@ -13,6 +13,7 @@ Sprache des Projekts ist **Deutsch**: Oberfläche, Code-Kommentare, Commit-Nachr
 | `docs/runden-archiv.md` | Historie aller Entwicklungsrunden (neueste oben) und die Liste „Ausgeliefert“. |
 | `docs/offene-fragen.md` | Bewusste Setzungen je Runde, zu denen noch Rückmeldung fehlt. |
 | `tests/` | Playwright-Tests (`npm test`). |
+| `.github/workflows/pages.yml` | Veröffentlicht das Spiel nach grünen Tests als `index.html` auf GitHub Pages (https://j15r.github.io/manfredville/). |
 
 ## Grundregeln
 
