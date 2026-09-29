@@ -47,6 +47,10 @@ Erzeuger (Förster, Holzfäller, Bauernhof, Mine, Hopfenfarm, Steinbruch, Fische
 
 **Die Warenliste hat genau EINE Quelle der Wahrheit:** `GOOD_LABELS` definiert die Warentypen, `emptyStorage()` leitet daraus jedes frische Warenobjekt ab, `updateResourceUI` füllt die Pillen generisch. Wer eine Ware ergänzt, braucht: `GOOD_LABELS`, eine CSS-Farbvariable + `.swatch`-Regel, eine Pille in der Topbar und einen Eintrag in `GOOD_COLORS`.
 
+**Forschung wirkt nur über `researchLevel(key)` (v34.27).** Jede Wirkung ist eine Tabelle je Stufe (`RESEARCH_SHIP_SPEED`, `RESEARCH_HARVEST_BONUS`, `RESEARCH_CRAFT_SPEED`, `RESEARCH_MINING_SPARE`, `RESEARCH_DISEASE_RATE`/`RESEARCH_CURE_SPEED`, `RESEARCH_TAX_BONUS`), die an genau einer Stelle des betroffenen Systems gelesen wird. Eine neue Forschung = ein Eintrag in `RESEARCH` plus eine solche Tabelle plus die eine Abfrage. Gelehrte (`scholarCount`) sind Adlige im Radius einer Universität; es läuft höchstens eine Forschung (`research.active`), und nur solange eine Universität steht.
+
+**Erfolge sind Tabelleneinträge mit Prüffunktion (v34.27).** `ACHIEVEMENTS[i].check(c)` oder `.progress(c) -> [hat, braucht]` über die Momentaufnahme `achievementSnapshot()` (ein Gang über Gebäude und Straßen je Prüfung, alle 2 s). Was sich nicht aus dem Zustand ablesen lässt, zählt `achStats` an der Stelle, an der es passiert. Freigeschaltetes bleibt (`achievements[id]` = Spieltag); `checkAchievements(true)` schreibt beim Laden still gut, damit ein fortgesetzter Stand nicht mit Meldungen überflutet wird.
+
 **Alle Comicfiguren teilen sich EINE Größenkonstante (`MONSTER_BASE_SCALE`).**
 
 **Bauen läuft komplett über `canBuildHere(gx, gy, tool, opts)`**: eine einzige, nebenwirkungsfreie Prüffunktion, die sowohl die Bau-Aktionen als auch die Bauvorschau als auch die Ferngründung nutzen. `opts.ignoreCost` schaltet NUR die Bezahlprüfung ab. Straßenanschluss ist bewusst KEINE Bauregel darin. Das Setzen selbst steckt in `createBuilding` (prüft und bezahlt nicht) – `tryPlaceBuilding` ist die prüfende, bezahlende Hülle darum.

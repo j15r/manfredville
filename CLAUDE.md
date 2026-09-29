@@ -23,6 +23,7 @@ Sprache des Projekts ist **Deutsch**: Oberfläche, Code-Kommentare, Commit-Nachr
 - **Alte Spielstände müssen laden.** `SAVE_VERSION` bleibt 2; neue Felder sind additiv und bekommen beim Laden ausdrückliche Standardwerte (sonst `undefined` → `NaN`).
 - **Nie über alle Kacheln je Frame rechnen** (140×140 = 19 600 Kacheln). Teures nur bei Ereignissen oder mit Timer.
 - Meldungen mit Spielbedeutung über `logEvent(text, kategorie, pos)` statt `setStatus` ausgeben.
+- Forschungswirkungen immer über `researchLevel(key)` abfragen. Neue Erfolge sind ein Eintrag in `ACHIEVEMENTS`; Ereignisse, die sich nicht aus dem Zustand ablesen lassen, zählt `achStats`.
 
 ## Zentrale Zugriffswege (nie umgehen)
 
@@ -61,7 +62,7 @@ npx playwright test tests/smoke.spec.js
 
 ## Doku pflegen (jede Runde)
 
-1. Versionsnummer hochzählen (aktuell **v34.26**) – in der Überschrift „Aktueller Funktionsumfang“ in `status.md`.
+1. Versionsnummer hochzählen (aktuell **v34.27**) – in der Überschrift „Aktueller Funktionsumfang“ in `status.md`.
 2. Neue Funktion als **(NEU, vX)**-Eintrag oben in den Funktionsumfang von `status.md`, knapp und mit den Zahlen, die der Spieler wissen muss.
 3. Rundenbericht (Wunsch, Entscheidungen, Umsetzung, Verifikation) oben in `docs/runden-archiv.md`; einen Satz in „Ausgeliefert“ ergänzen.
 4. Bewusste Setzungen ohne Rückmeldung in `docs/offene-fragen.md`.

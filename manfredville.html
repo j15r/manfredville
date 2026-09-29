@@ -248,7 +248,7 @@
      dadurch nie eigenes Styling und blieb ein unbehandelter Browser-Standard-
      Button (auffällig hell im sonst dunklen Titelzeilen-Rahmen). Jetzt Teil
      derselben Gruppe wie die anderen beiden Symbol-Knöpfe. */
-  #settingsToggle, #resourcesToggle, #overviewToggle, #statsToggle, #logToggle {
+  #settingsToggle, #resourcesToggle, #overviewToggle, #statsToggle, #logToggle, #achToggle {
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
     color: var(--text-light);
@@ -260,7 +260,51 @@
     opacity: 0.9;
     flex-shrink: 0;
   }
-  #settingsToggle:hover, #resourcesToggle:hover, #overviewToggle:hover, #statsToggle:hover, #logToggle:hover { opacity: 1; background: #3a2f22; }
+  #settingsToggle:hover, #resourcesToggle:hover, #overviewToggle:hover, #statsToggle:hover, #logToggle:hover, #achToggle:hover { opacity: 1; background: #3a2f22; }
+  /* Erfolge (NEU, v34.27) */
+  #achToggle { display: flex; align-items: center; gap: 4px; }
+  #achToggleCount { font-size: 10px; opacity: 0.85; font-variant-numeric: tabular-nums; }
+  #achPanel {
+    display: none; position: absolute; left: 50%; top: 64px; transform: translateX(-50%);
+    width: min(620px, calc(100% - 24px)); max-height: calc(100% - 150px); overflow: auto;
+    background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 10px;
+    padding: 10px 12px; font-size: 12px; color: var(--text-light); z-index: 8;
+  }
+  #achPanel .stats-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  #achPanel #achClose { cursor: pointer; opacity: 0.8; padding: 0 4px; }
+  #achPanel .stats-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  #achPanel .stats-tabs button { background: #2e251a; color: var(--text-light); border: 1px solid var(--panel-border); border-radius: 6px; padding: 3px 8px; font-size: 11px; cursor: pointer; }
+  #achPanel .stats-tabs button.active { background: #5a4630; border-color: var(--accent); }
+  #achPanel .ach-row { display: flex; gap: 10px; align-items: center; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); opacity: 0.55; }
+  #achPanel .ach-row.done { opacity: 1; }
+  #achPanel .ach-icon { flex: 0 0 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 19px; background: #2e251a; border: 1px solid var(--panel-border); filter: grayscale(1); }
+  #achPanel .ach-row.done .ach-icon { filter: none; background: #5a4630; border-color: #e8c04a; box-shadow: 0 0 6px rgba(232,192,74,0.45); }
+  #achPanel .ach-text { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
+  #achPanel .ach-text small { opacity: 0.75; }
+  #achPanel .ach-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  #achPanel .ach-when { font-size: 10px; opacity: 0.75; font-variant-numeric: tabular-nums; }
+  #achPanel .ach-bar { display: block; width: 70px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.14); overflow: hidden; }
+  #achPanel .ach-bar i { display: block; height: 100%; background: #d9b44a; }
+  #achToast {
+    position: absolute; left: 50%; bottom: 96px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+    display: flex; gap: 10px; align-items: center; padding: 8px 16px 8px 10px; border-radius: 12px;
+    background: var(--panel-bg); border: 1px solid #e8c04a; color: var(--text-light); z-index: 20;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45); transition: opacity 0.35s, transform 0.35s;
+  }
+  #achToast.show { opacity: 1; transform: translate(-50%, 0); }
+  #achToast .ach-toast-icon { font-size: 26px; }
+  #achToast small { display: block; font-size: 10px; opacity: 0.8; }
+  #achToast b { font-size: 14px; }
+  #logPanel .log-row.cat-achievement { border-left-color: #e8c04a; }
+  /* Universität (NEU, v34.27) */
+  .uni-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2px 8px; padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.07); }
+  .uni-row .uni-icon { font-size: 18px; flex: 0 0 24px; text-align: center; }
+  .uni-row .uni-text { flex: 1 1 0; display: flex; flex-direction: column; min-width: 0; }
+  .uni-row .uni-text small { opacity: 0.75; line-height: 1.35; }
+  .uni-row .uni-pips { letter-spacing: 1px; color: #e8c04a; }
+  .uni-row .tool-btn { flex: 1 1 100%; margin: 3px 0 0 32px; padding: 4px 8px; font-size: 11.5px; }
+  .uni-progress { height: 6px; border-radius: 3px; background: #2e251a; overflow: hidden; margin-top: 3px; }
+  .uni-progress i { display: block; height: 100%; background: #6fa8d8; }
   /* Ereignisprotokoll (NEU, v34.26) */
   #logToggle { position: relative; }
   #logToggleCount { display: none; position: absolute; top: -5px; right: -5px; min-width: 15px; height: 15px; padding: 0 3px;
@@ -1061,6 +1105,7 @@
       <button id="overviewToggle" title="Warenübersicht über alle Inseln">🗂️</button>
       <button id="statsToggle" title="Statistik: Bevölkerung, Münzen, Produktion">📈</button>
       <button id="logToggle" title="Ereignisprotokoll">📜<span id="logToggleCount"></span></button>
+      <button id="achToggle" title="Erfolge">🏆<span id="achToggleCount"></span></button>
       <button id="resourcesToggle" title="Warenleiste ein-/ausblenden">📊<span class="toggle-caret">▾</span></button>
     </div>
     <div id="resourcesWrap">
@@ -1141,6 +1186,7 @@
         <button class="tool-btn" data-tool="doctor">⚕️ Medicus <span class="cost">10 Bretter, 3 Werkzeuge</span></button>
         <button class="tool-btn" data-tool="theater">🎭 Theater <span class="cost">16 Bretter, 10 Stein, 4 Werkzeuge</span></button>
         <button class="tool-btn" data-tool="cathedral">🏰 Kathedrale <span class="cost">20 Bretter, 20 Stein, 6 Werkzeuge, 8 Gold</span></button>
+        <button class="tool-btn" data-tool="university">🏫 Universität <span class="cost">30 Bretter, 25 Stein, 10 Werkzeuge, 10 Gold</span></button>
         <button class="tool-btn" data-tool="harbor">⚓ Hafen <span class="cost">15 Bretter</span></button>
         <button class="tool-btn" data-tool="kontor">🏛️ Kontor <span class="cost">12 Bretter</span></button>
         <button class="tool-btn" data-tool="rathaus">⚖️ Rathaus <span class="cost">18 Bretter, 8 Stein, 4 Werkzeuge</span></button>
@@ -1158,6 +1204,8 @@
   <div id="overview"></div>
   <div id="statsPanel"></div>
   <div id="logPanel"></div>
+  <div id="achPanel"></div>
+  <div id="achToast"></div>
 
   <div id="mapHud">
     <canvas id="minimap" width="150" height="150" title="Minimap - Klick/Tipp springt dorthin"></canvas>
@@ -1503,7 +1551,7 @@ function taxIncomeOf(islandId) {
     if (b.type !== 'house' || islandOfBuilding(b) !== islandId) continue;
     sum += (b.population || 0) * (TAX_PER_HEAD[Math.min(TAX_PER_HEAD.length - 1, b.tier || 0)] || 0);
   }
-  return sum * taxRateOf(islandId).factor;
+  return sum * taxRateOf(islandId).factor * RESEARCH_TAX_BONUS[researchLevel('administration')]; // Verwaltung (Forschung, v34.27)
 }
 let taxTimer = 0;
 // Die Einnahmen fließen in die KARTENWEITE Kasse (v29.1) - Steuern sind Geld,
@@ -1582,7 +1630,10 @@ const BUILD_UNLOCKS = {
   winery:      { tier: 2, pop: 10 },
   jeweler:     { tier: 2, pop: 20 },
   theater:     { tier: 2, pop: 20 },
-  cathedral:   { tier: 2, pop: 40 }
+  cathedral:   { tier: 2, pop: 40 },
+  // Universität (v34.27): mit den ersten zehn Adligen - vorher gäbe es
+  // niemanden, der sie besuchen könnte.
+  university:  { tier: 3, pop: 10 }
 };
 // Einmal freigeschaltet, bleibt ein Gebäude verfügbar: gespeichert wird
 // deshalb der HÖCHSTSTAND je Stufe, nicht der aktuelle. Eine Hungersnot soll
@@ -1681,6 +1732,9 @@ const buildingTypes = {
   // Gold bekommt damit einen festen Platz im Aufbau).
   theater:    { name: 'Theater',            cost: { plank: 16, stone: 10, tools: 4 }, radius: 8 },
   cathedral:  { name: 'Kathedrale',         cost: { plank: 20, stone: 20, tools: 6, gold: 8 }, radius: 14 },
+  // Universität (NEU, v34.27): Adlige in Reichweite besuchen sie und zählen
+  // als Gelehrte; mit ihnen werden Forschungen möglich (siehe RESEARCH).
+  university: { name: 'Universität',        cost: { plank: 30, stone: 25, tools: 10, gold: 10 }, radius: 12 },
   // Seuche (NEU, v34.24)
   herbgarden: { name: 'Kräutergarten',      cost: { plank: 5 }, interval: 5000, radius: 3, plantRadius: 1, capacity: 8 },
   doctor:     { name: 'Medicus',            cost: { plank: 10, tools: 3 }, radius: 8, inputCapacity: 4 },
@@ -2155,6 +2209,7 @@ const toolHints = {
   herbgarden: 'Kräutergarten (5 Bretter): überall baubar. Zieht Heilkräuter auf den angrenzenden Feldern - der Medicus braucht sie, um Kranke zu behandeln.',
   doctor: 'Medicus (10 Bretter, 3 Werkzeuge): braucht Straßenanschluss, damit Träger ihm Heilkräuter bringen. Bricht in seinem Umkreis (8 Felder) eine Seuche aus, behandelt er jedes kranke Haus mit einer Heilkräuter-Einheit - dann stirbt dort niemand mehr, und das Haus ist danach eine Weile immun.',
   sailmaker: 'Segelmacherei (8 Bretter, 2 Werkzeuge): näht aus Stoff Segeltuch. Überall baubar. Segeltuch braucht die Werft für die Galeone.',
+  university: 'Universität (30 Bretter, 25 Stein, 10 Werkzeuge, 10 Gold): freigeschaltet mit 10 Adligen. Adlige, die in 12 Feldern Umkreis wohnen, besuchen sie als Gelehrte. Im Infopanel lassen sich mit genug Gelehrten und Münzen Forschungen in drei Stufen beginnen: schnellere Schiffe, ertragreichere Felder, fleißigere Werkstätten, schonender Bergbau, Heilkunde und Verwaltung.',
   rathaus: 'Rathaus (18 Bretter, 8 Stein, 4 Werkzeuge): höchstens eines je Insel, muss nicht an der Küste stehen. Erst wenn eine Insel ein Rathaus hat, werden dort überhaupt Steuern erhoben – der eingestellte Steuersatz wirkt bis dahin ins Leere. Ein Rathaus wirkt für die GANZE Insel, nicht nur in einem Umkreis.',
   demolish: 'Abreißen: Gebäude, Straße/Steinweg, Wald oder Feld anklicken, um sie zu entfernen.'
 };
@@ -2456,6 +2511,8 @@ function generateMap() {
   initSeals();
   initWhalePods(); // Walwanderung (v34.25)
   resetStats(); // neue Karte = neuer Verlauf (v34.24)
+  resetAchievements(); // ...und neue Erfolge und Forschung (v34.27)
+  research = { levels: {}, active: null };
 }
 
 // Stempelt EINE Insel ins Wasser. Die Küstenlinie entsteht aus der Summe
@@ -3872,7 +3929,8 @@ function updateShips(dt) {
     // Routenschiffe, nicht fürs freie Handsteuern - genau das hat der
     // Spieler verlangt ("Schiffe sind ... schneller auf Handelsrouten").
     const typeSpeed = (SHIP_TYPES[s.shipType] || SHIP_TYPES.small).speed;
-    const step = Math.min(dist, SHIP_SPEED * typeSpeed * lighthouseSpeedBonus(s) * weatherShipFactor(s.x, s.y) * dtSec);
+    // Navigation (Forschung, v34.27) wirkt auf jedes eigene Schiff
+    const step = Math.min(dist, SHIP_SPEED * typeSpeed * RESEARCH_SHIP_SPEED[researchLevel('navigation')] * lighthouseSpeedBonus(s) * weatherShipFactor(s.x, s.y) * dtSec);
     s.x += (dx / dist) * step;
     s.y += (dy / dist) * step;
     s.flip = (dx - dy) < 0;
@@ -4199,6 +4257,7 @@ function sinkPirate(p) {
   for (const s of ships) if (s.combatTarget === p) s.combatTarget = null;
   const beute = Math.round(PIRATE_BOUNTY_MIN + Math.random() * (PIRATE_BOUNTY_MAX - PIRATE_BOUNTY_MIN));
   treasury += beute;
+  achStats.piratesSunk++; // Erfolge (v34.27)
   updateResourceUI();
   logEvent(`⚔️ Piratenschiff ${islandNear(p.x, p.y)} versenkt! Die Beute bringt ${beute} Münzen in die Kasse.`, 'economy', { x: p.x, y: p.y });
   AudioEngine.playShipSink();
@@ -4672,6 +4731,7 @@ function tradeSell(k, good, amount) {
   }
   addTo(isl, 'coin', erloes); // 'coin' ist global, die Insel ist nur der Zugriffsweg
   lastTradeValue = erloes;
+  achStats.sold += n; // Erfolge (v34.27)
   return n;
 }
 let lastTradeValue = 0;
@@ -5269,7 +5329,7 @@ function updateProduction(b, dt) {
       b.blocked = null;
       b.working = true;
       advanceProcessorWork(b, dt);
-      b.timer += dt;
+      b.timer += dt * RESEARCH_CRAFT_SPEED[researchLevel('craft')]; // Handwerkskunst (Forschung, v34.27)
       if (b.timer >= b.def.interval) {
         b.timer -= b.def.interval;
         b.storage[proc.input] -= 1;
@@ -6181,13 +6241,14 @@ function finishWork(c) {
     // mehr drin ist.
     if (t.terrain === 'mountain') {
       const ore = oreOfTile(t);
-      if (ore && extractFromTile(ttx, tty, ore)) c.carryGood = ore;
+      // Bergbautechnik (Forschung, v34.27): ein Teil der Fuhren schont die Ader
+      if (ore && (t[ore] || 0) > 0 && (Math.random() < RESEARCH_MINING_SPARE[researchLevel('mining')] || extractFromTile(ttx, tty, ore))) c.carryGood = ore;
     }
   } else if (c.action === 'quarry') {
     // Seit v30 zehrt der Steinbruch das Gebirge auf (vorher lieferte es
     // unbegrenzt). Ist die Kachel leer, wird sie zu Grasland - siehe
     // extractFromTile.
-    if (t.terrain === 'mountain' && extractFromTile(ttx, tty, 'stone')) {
+    if (t.terrain === 'mountain' && (t.stone || 0) > 0 && (Math.random() < RESEARCH_MINING_SPARE[researchLevel('mining')] || extractFromTile(ttx, tty, 'stone'))) {
       c.carryGood = 'stone';
     }
   } else if (c.action === 'fish') {
@@ -6253,6 +6314,8 @@ function handleFieldArrival(c, i) {
         // sich generisch aus FIELD_FARMS (growthKind -> good).
         const farmDef = FIELD_FARMS.find(f => f.growthKind === c.cropKind);
         c.carryGood = farmDef ? farmDef.good : 'grain';
+        // Fruchtfolge (Forschung, v34.27): manchmal eine zweite Einheit
+        c.carryAmount = Math.random() < RESEARCH_HARVEST_BONUS[researchLevel('agriculture')] ? 2 : 1;
         t.terrain = 'grass';
         t.growthStage = undefined;
         t.growthTimer = 0;
@@ -6271,8 +6334,9 @@ function handleFieldArrival(c, i) {
       // Nachschub von außen - sie wird auch dann eingelagert, wenn der Betrieb
       // inzwischen von Hand gestoppt wurde (siehe destCapacity).
       const cap = destCapacity(c.building, c.carryGood, true);
-      c.building.storage[c.carryGood] = Math.min((c.building.storage[c.carryGood] || 0) + 1, cap);
-      recordProduced(c.carryGood, 1);
+      const menge = c.carryAmount || 1; // Fruchtfolge (v34.27): Ernten können zwei Einheiten bringen
+      c.building.storage[c.carryGood] = Math.min((c.building.storage[c.carryGood] || 0) + menge, cap);
+      recordProduced(c.carryGood, menge);
     }
     c.building.busy = false;
     carriers.splice(i, 1);
@@ -7045,6 +7109,7 @@ const buildingColors = {
   jeweler:    { wall: '#e4dccb', wall2: '#b5ab96', roof: '#2f3f5e', accent: '#e8c04a', foundation: '#5c5648' },
   theater:    { wall: '#ece4d2', wall2: '#bfb49c', roof: '#7a3f4a', accent: '#e8c04a', foundation: '#6a6254' },
   cathedral:  { wall: '#d6d0c2', wall2: '#a39c8c', roof: '#46566e', accent: '#e8c04a', foundation: '#5a5448' },
+  university: { wall: '#d9c7a4', wall2: '#a8956f', roof: '#3f5a4a', accent: '#e8c04a', foundation: '#5a5448' },
   herbgarden: { wall: '#b8a07a', wall2: '#8a7452', roof: '#6a7a44', accent: '#6a9c4a', foundation: '#6a5a40' },
   doctor:     { wall: '#f0ebe0', wall2: '#c4bca8', roof: '#9c3a2e', accent: '#6a9c4a', foundation: '#6a6254' },
   sailmaker:  { wall: '#c8b48e', wall2: '#9a8664', roof: '#4f6a7a', accent: '#e6dcc0', foundation: '#6a5a40' },
@@ -8034,6 +8099,55 @@ function drawBuilding(gx, gy, b) {
     ctx.fillStyle = '#3a2c1c';
     ctx.beginPath(); ctx.moveTo(cx + 1, s.wallBottom); ctx.lineTo(cx + 1, s.wallBottom - 9); ctx.lineTo(cx + 5, s.wallBottom - 14); ctx.lineTo(cx + 9, s.wallBottom - 9); ctx.lineTo(cx + 9, s.wallBottom); ctx.closePath(); ctx.fill();
     topY = cy - 82;
+  } else if (b.type === 'university') {
+    // Universität (NEU, v34.27): breiter Sandsteinbau mit zwei Flügeln, in der
+    // Mitte ein Turm mit grüner Kuppel und Sternwarte samt Fernrohr; über dem
+    // Portal ein aufgeschlagenes Buch. Nachts leuchten die Fenster der
+    // Studierstuben.
+    const s = drawBuildingShell(cx, cy, colors, { wallW: 22, wallH: 20, roofH: 10, timber: false, overhang: 1 });
+    // Fensterreihen der beiden Flügel
+    const licht = nightLightFactor() > 0.3;
+    for (const wx of [-17, -11, 11, 17]) {
+      for (const wy of [4, 12]) {
+        ctx.fillStyle = licht ? 'rgba(255,214,130,0.9)' : 'rgba(110,140,180,0.75)';
+        ctx.beginPath(); ctx.moveTo(cx + wx - 1.6, s.wallTop + wy + 5); ctx.lineTo(cx + wx - 1.6, s.wallTop + wy + 1.4);
+        ctx.quadraticCurveTo(cx + wx, s.wallTop + wy - 0.6, cx + wx + 1.6, s.wallTop + wy + 1.4); ctx.lineTo(cx + wx + 1.6, s.wallTop + wy + 5); ctx.closePath(); ctx.fill();
+      }
+    }
+    // Mittelturm
+    const tw = 7.5, tTop = s.wallTop - 14;
+    ctx.fillStyle = shade(colors.wall, 10); ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.lineWidth = 0.9;
+    ctx.fillRect(cx - tw, tTop, tw * 2, s.wallBottom - tTop); ctx.strokeRect(cx - tw, tTop, tw * 2, s.wallBottom - tTop);
+    // Kuppel mit Grünspan
+    const kuppel = ctx.createLinearGradient(cx - tw, 0, cx + tw, 0);
+    kuppel.addColorStop(0, shade(colors.roof, 25)); kuppel.addColorStop(1, shade(colors.roof, -20));
+    ctx.fillStyle = kuppel;
+    ctx.beginPath(); ctx.moveTo(cx - tw - 1, tTop); ctx.quadraticCurveTo(cx - tw, tTop - 12, cx, tTop - 12); ctx.quadraticCurveTo(cx + tw, tTop - 12, cx + tw + 1, tTop); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Sternwarten-Spalt und Fernrohr
+    ctx.fillStyle = '#1e2a30'; ctx.fillRect(cx - 1, tTop - 11.5, 2, 9);
+    ctx.save(); ctx.translate(cx, tTop - 8); ctx.rotate(-0.7);
+    ctx.fillStyle = '#b08a3a'; ctx.strokeStyle = '#4a3a1a'; ctx.lineWidth = 0.5;
+    ctx.fillRect(0, -1.1, 9, 2.2); ctx.strokeRect(0, -1.1, 9, 2.2);
+    ctx.fillRect(8.5, -1.5, 1.6, 3);
+    ctx.restore();
+    // Turmuhr/Rundfenster
+    ctx.fillStyle = '#f4efe2'; ctx.strokeStyle = '#4a3a2a'; ctx.lineWidth = 0.7;
+    ctx.beginPath(); ctx.arc(cx, tTop + 5, 3, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, tTop + 5); ctx.lineTo(cx, tTop + 3); ctx.moveTo(cx, tTop + 5); ctx.lineTo(cx + 1.6, tTop + 5.6); ctx.stroke();
+    // Aufgeschlagenes Buch über dem Portal
+    ctx.fillStyle = '#f7f1dc'; ctx.strokeStyle = '#6a4a28'; ctx.lineWidth = 0.6;
+    ctx.beginPath(); ctx.moveTo(cx, s.wallBottom - 15); ctx.quadraticCurveTo(cx - 2.5, s.wallBottom - 16.5, cx - 5, s.wallBottom - 15.5); ctx.lineTo(cx - 5, s.wallBottom - 12); ctx.quadraticCurveTo(cx - 2.5, s.wallBottom - 13, cx, s.wallBottom - 11.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, s.wallBottom - 15); ctx.quadraticCurveTo(cx + 2.5, s.wallBottom - 16.5, cx + 5, s.wallBottom - 15.5); ctx.lineTo(cx + 5, s.wallBottom - 12); ctx.quadraticCurveTo(cx + 2.5, s.wallBottom - 13, cx, s.wallBottom - 11.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Portal
+    ctx.fillStyle = '#4a3322';
+    ctx.beginPath(); ctx.moveTo(cx - 3.5, s.wallBottom); ctx.lineTo(cx - 3.5, s.wallBottom - 7); ctx.quadraticCurveTo(cx, s.wallBottom - 10, cx + 3.5, s.wallBottom - 7); ctx.lineTo(cx + 3.5, s.wallBottom); ctx.closePath(); ctx.fill();
+    // Wimpel in der Akzentfarbe
+    ctx.strokeStyle = '#4a3a2a'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(cx, tTop - 12); ctx.lineTo(cx, tTop - 21); ctx.stroke();
+    ctx.fillStyle = colors.accent;
+    const wehen = Math.sin(animC / 380 + seed * 7) * 1.2;
+    ctx.beginPath(); ctx.moveTo(cx, tTop - 21); ctx.lineTo(cx + 7, tTop - 19.5 + wehen); ctx.lineTo(cx, tTop - 17.5); ctx.closePath(); ctx.fill();
+    topY = tTop - 22;
   } else if (b.type === 'herbgarden') {
     // Kräutergarten (v34.24): kleine Gärtnerhütte mit Trockengestell voller
     // Kräuterbündel und zwei Hochbeeten davor.
@@ -10515,7 +10629,8 @@ function infectHouse(h, ausbruch) {
   }
 }
 function updateDisease(dt) {
-  diseaseTimer -= dt;
+  // Heilkunde (Forschung, v34.27): Ausbrüche kommen seltener
+  diseaseTimer -= dt * RESEARCH_DISEASE_RATE[researchLevel('medicine')];
   if (diseaseTimer <= 0) {
     diseaseTimer = DISEASE_INTERVAL_MIN + Math.random() * (DISEASE_INTERVAL_MAX - DISEASE_INTERVAL_MIN);
     if (populationInTier(0) >= DISEASE_MIN_POPULATION) {
@@ -10530,9 +10645,10 @@ function updateDisease(dt) {
     if (h.population <= 0) { h.sick = false; h.treatTimer = 0; continue; } // leeres Haus: niemand mehr krank
     // In Behandlung
     if (h.treatTimer > 0) {
-      h.treatTimer += dt;
+      h.treatTimer += dt * RESEARCH_CURE_SPEED[researchLevel('medicine')]; // Heilkunde (v34.27)
       if (h.treatTimer >= DISEASE_CURE_TIME) {
         h.sick = false; h.treatTimer = 0; h.sickTimer = 0;
+        achStats.cured++; // Erfolge (v34.27)
         h.immuneTimer = DISEASE_IMMUNE_TIME;
         if (!buildings.some(o => o.type === 'house' && o.sick)) logEvent('💊 Die Seuche ist besiegt – alle Häuser sind genesen.', 'danger', h);
       }
@@ -10598,6 +10714,7 @@ function updateFires(dt) {
       if (b.fireProgress <= 0) {
         b.onFire = false;
         b.fireProgress = 0;
+        achStats.firesOut++; // Erfolge (v34.27)
         logEvent(`💧 Die Feuerwache hat den Brand im ${b.def.name} auf ${islandLabel(islandOfBuilding(b))} gelöscht.`, 'danger', b);
         AudioEngine.playFireExtinguish();
       }
@@ -12741,7 +12858,7 @@ function render() {
     for (const c of carriers) drawCarrier(c);
     drawDaylightOverlay();
     drawWeatherOverlay();
-    if (selectedBuilding && ['chapel', 'tavern', 'theater', 'cathedral', 'doctor'].includes(selectedBuilding.type)) {
+    if (selectedBuilding && ['chapel', 'tavern', 'theater', 'cathedral', 'doctor', 'university'].includes(selectedBuilding.type)) {
       drawCoverageRadius(selectedBuilding);
     }
     if (hoverTile && inBounds(hoverTile.x, hoverTile.y) && currentTool !== 'pan') {
@@ -12803,7 +12920,7 @@ function render() {
   // aber unter Einzugsradius und Bauvorschau - die müssen auch im Schneetreiben
   // lesbar bleiben.
   drawWeatherOverlay();
-  if (selectedBuilding && ['chapel', 'tavern', 'theater', 'cathedral', 'doctor'].includes(selectedBuilding.type)) {
+  if (selectedBuilding && ['chapel', 'tavern', 'theater', 'cathedral', 'doctor', 'university'].includes(selectedBuilding.type)) {
     drawCoverageRadius(selectedBuilding);
   }
   if (hoverTile && inBounds(hoverTile.x, hoverTile.y) && currentTool !== 'pan') {
@@ -13302,6 +13419,9 @@ function buildingInfoLines(b) {
       lines.push({ label: 'Theater/Kathedrale in Reichweite', value: hasCultureCoverage(b) ? 'ja' : 'nein' });
       lines.push({ label: 'Kultur', value: (b.cultureStreak || 0) > 0 ? 'fehlt – zieht bald aus' : (b.cultured ? 'versorgt' : '–') });
     }
+    if ((b.tier || 0) >= 3) {
+      lines.push({ label: 'Universität in Reichweite', value: hasUniversityCoverage(b) ? 'ja – die Adligen zählen als Gelehrte' : 'nein' });
+    }
     if (tierNeeds(b, 'noble')) {
       const vorrat = NOBLE_LUXURY.map(g => ({ g, n: Math.floor(stockOf(isl, g)) })).filter(e => e.n > 0);
       lines.push({ label: 'Adelsluxus (Insel)', value: (vorrat.length ? vorrat.map(e => `${e.n} ${GOOD_LABELS[e.g]}`).join(', ') : 'kein Schmuck, Pelzmantel oder Wein') + ` · ${Math.floor(stockOf(isl, 'gem'))} Geschmeide` });
@@ -13313,6 +13433,10 @@ function buildingInfoLines(b) {
     } else if (b.immuneTimer > 0) {
       lines.push({ label: 'Gesundheit', value: 'genesen – vorerst immun' });
     }
+    return lines;
+  }
+  if (b.type === 'university') {
+    lines.push({ label: 'Einzugsradius', value: `${b.def.radius} Felder` });
     return lines;
   }
   if (b.type === 'chapel' || b.type === 'tavern' || b.type === 'theater' || b.type === 'cathedral') {
@@ -13892,6 +14016,7 @@ function renderBuildingInfo() {
   // anlegen, Ware und Menge einstellen) statt reiner Label/Wert-Zeilen.
   if (b.type === 'kontor') { renderKontorInfo(b); return; }
   const lines = buildingInfoLines(b);
+  if (b.type === 'university') { renderUniversityInfo(b, lines); return; }
   const rows = lines.length
     ? lines.map(l => `<div class="bi-line"><span>${l.label}</span><span>${l.value}</span></div>`).join('')
     : '<div class="bi-line"><span>Keine Lagerdaten für diesen Gebäudetyp.</span></div>';
@@ -13965,6 +14090,48 @@ function renderBuildingInfo() {
     renderBuildingInfo();
   });
 }
+// Infopanel der Universität (NEU, v34.27): Gelehrte, laufende Forschung und
+// je Forschung eine Zeile mit Stufenanzeige, Wirkung und Start-Knopf.
+function renderUniversityInfo(b, lines) {
+  const panel = document.getElementById('buildingInfo');
+  panel.className = 'cargo'; // breiter und scrollbar wie Kontor und Schiff
+  const gelehrte = scholarCount();
+  const naechste = RESEARCH_LEVELS.find(l => l.scholars > gelehrte);
+  let html = `<div id="buildingInfoHeader"><b>🏫 Universität</b><span id="buildingInfoClose">✕</span></div>`
+    + lines.map(l => `<div class="bi-line"><span>${l.label}</span><span>${l.value}</span></div>`).join('')
+    + `<div class="bi-line"><span>Gelehrte (Adlige in Reichweite aller Universitäten)</span><span>${gelehrte}</span></div>`;
+  const a = research.active;
+  if (a) {
+    const def = RESEARCH.find(r => r.key === a.key);
+    const pct = Math.min(100, Math.round(100 * a.elapsed / a.duration));
+    html += `<div class="bi-line"><span>Forschung läuft</span><span>${def.icon} ${def.name} ${a.level} – noch ${Math.max(0, Math.ceil((a.duration - a.elapsed) / 1000))} s</span></div>`
+      + `<div class="uni-progress"><i style="width:${pct}%"></i></div>`;
+  } else {
+    html += `<div class="bi-line"><span>Forschung läuft</span><span>keine</span></div>`;
+  }
+  for (const r of RESEARCH) {
+    const lvl = researchLevel(r.key);
+    const pips = '●'.repeat(lvl) + '○'.repeat(RESEARCH_MAX - lvl);
+    const grund = researchBlocker(r.key);
+    const stufe = RESEARCH_LEVELS[lvl];
+    const jetzt = lvl > 0 ? `Jetzt: ${r.effect(lvl)}.` : 'Noch nicht erforscht.';
+    const dann = stufe ? ` Stufe ${lvl + 1}: ${r.effect(lvl + 1)}.` : '';
+    let knopf = '';
+    if (stufe) {
+      knopf = `<button class="tool-btn uni-start${grund ? ' disabled' : ''}" data-research="${r.key}" title="${grund ? grund : 'Forschung beginnen'}">`
+        + `Stufe ${lvl + 1}<span class="cost">${stufe.cost} Münzen · ${stufe.scholars} Gelehrte · ${Math.round(stufe.time / 1000)} s</span></button>`;
+    }
+    html += `<div class="uni-row"><span class="uni-icon">${r.icon}</span><span class="uni-text"><b>${r.name} <span class="uni-pips">${pips}</span></b>`
+      + `<small>${jetzt}${dann}</small></span>${knopf}</div>`;
+  }
+  if (naechste) html += `<div class="bi-line"><span>Tipp</span><span>Adelssitze in ${b.def.radius} Feldern Umkreis bringen Gelehrte – ${naechste.scholars} braucht die nächste Stufe.</span></div>`;
+  if (!hasUniversity() && a) html += `<div class="bi-line"><span>Hinweis</span><span>Ohne Universität ruht die Forschung.</span></div>`;
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+  panel.querySelectorAll('.uni-start').forEach(btn => btn.addEventListener('click', () => {
+    if (startResearch(btn.dataset.research)) renderBuildingInfo();
+  }));
+}
 // Kauft ein Schiff am Hafen gegen Holz und Werkzeuge aus dem Insel-Vorrat
 // (siehe SHIP_TYPES). b.ships bleibt als reiner Zähler (Anzeige/
 // Abwärtskompatibilität) erhalten, das eigentliche, sicht- und bewegbare
@@ -14014,6 +14181,8 @@ function buildShip(b, type = 'small') {
     routeId: null, routeStop: 0, routeStatus: null, routeWait: 0, waypoints: [],
     hp: shipDef.hp || 100
   });
+  achStats.shipsBuilt++; // Erfolge (v34.27)
+  if (type === 'galleon') achStats.galleons++;
   logEvent(`⛵ ${shipDef.name} gebaut (${islandLabel(shipIsl)}). Es liegt am Hafen und kann per Klick be- und entladen werden.`, 'economy', b);
   // Das erste Kriegsschiff ruft die Piraten auf den Plan (v34.22, so gewünscht:
   // vorher gibt es niemanden, der sich wehren könnte). Der erste Überfall
@@ -14129,6 +14298,7 @@ let statsOpen = false, statsTab = 'pop', statsRange = 30; // Minuten, 0 = alles
 function recordProduced(good, n) {
   if (!good) return;
   prodAccum[good] = (prodAccum[good] || 0) + n;
+  achStats.produced[good] = (achStats.produced[good] || 0) + n; // Erfolge (v34.27): Summe über die ganze Partie
 }
 function resetStats() {
   stats = { t: [], pop: [[], [], [], []], coins: [], prod: {}, mood: [] };
@@ -14426,7 +14596,7 @@ function updateMoodBadge() {
 // springt beim Antippen dorthin. Neue Gefahren-Meldungen seit dem letzten
 // Öffnen stehen als Zähler am Knopf.
 const EVENT_LOG_MAX = 100;
-const EVENT_CATS = { danger: '⚠️ Gefahren', economy: '💰 Wirtschaft', discovery: '🧭 Entdeckungen', mood: '😊 Stimmung' };
+const EVENT_CATS = { danger: '⚠️ Gefahren', economy: '💰 Wirtschaft', discovery: '🧭 Entdeckungen', mood: '😊 Stimmung', achievement: '🏆 Erfolge' };
 let eventLog = [];
 let eventLogOpen = false, eventLogFilter = 'all', eventLogUnread = 0;
 function gameDayLabel() {
@@ -14469,6 +14639,310 @@ function renderEventLog() {
     camera.panX += canvas.clientWidth / 2 - pos.x;
     camera.panY += canvas.clientHeight * 0.55 - pos.y;
   }));
+}
+// ---- Universität und Forschung (NEU, v34.27) --------------------------------
+// Die Universität ist das Bildungsziel der Adligen: jeder Adlige, der in
+// Reichweite einer Universität wohnt, besucht sie und zählt als GELEHRTER.
+// Die Zahl der Gelehrten entscheidet, welche Forschungsstufe begonnen werden
+// darf; bezahlt wird mit Münzen aus der kartenweiten Kasse. Geforscht wird
+// immer nur an EINER Sache zugleich, und nur solange eine Universität steht
+// (ohne sie ruht der Fortschritt, geht aber nicht verloren).
+//
+// Die Wirkungen sind bewusst kleine, prozentuale Verbesserungen bestehender
+// Abläufe - keine neuen Mechaniken. Jede Forschung hat drei Stufen; jede
+// Stufe verlangt mehr Gelehrte, mehr Geld und mehr Zeit. Alle Wirkungen
+// laufen über researchLevel(key), damit es genau EINE Stelle gibt, an der
+// ein Spielsystem nach dem Forschungsstand fragt.
+const RESEARCH_LEVELS = [
+  { scholars: 10, cost: 400, time: 45000 },
+  { scholars: 45, cost: 1000, time: 90000 },
+  { scholars: 90, cost: 2500, time: 150000 }
+];
+const RESEARCH = [
+  { key: 'navigation', icon: '🧭', name: 'Navigation',
+    effect: lvl => `Schiffe segeln ${[0, 10, 20, 30][lvl]} % schneller` },
+  { key: 'agriculture', icon: '🌾', name: 'Fruchtfolge',
+    effect: lvl => `jede Feldernte bringt mit ${[0, 25, 50, 75][lvl]} % eine zweite Einheit` },
+  { key: 'craft', icon: '⚒️', name: 'Handwerkskunst',
+    effect: lvl => `Verarbeitungsbetriebe arbeiten ${[0, 15, 30, 45][lvl]} % schneller` },
+  { key: 'mining', icon: '⛏️', name: 'Bergbautechnik',
+    effect: lvl => `${[0, 20, 35, 50][lvl]} % der Fuhren aus Mine und Steinbruch schonen das Vorkommen` },
+  { key: 'medicine', icon: '⚕️', name: 'Heilkunde',
+    effect: lvl => `Seuchen ${[0, 25, 45, 60][lvl]} % seltener, Behandlung ${[1, 1.5, 2, 3][lvl]}× so schnell` },
+  { key: 'administration', icon: '📜', name: 'Verwaltung',
+    effect: lvl => `Steuereinnahmen +${[0, 10, 20, 30][lvl]} %` }
+];
+const RESEARCH_MAX = RESEARCH_LEVELS.length;
+// Stellschrauben der Wirkungen je Stufe (Index = Stufe 0..3)
+const RESEARCH_SHIP_SPEED = [1, 1.1, 1.2, 1.3];
+const RESEARCH_HARVEST_BONUS = [0, 0.25, 0.5, 0.75];
+const RESEARCH_CRAFT_SPEED = [1, 1.15, 1.3, 1.45];
+const RESEARCH_MINING_SPARE = [0, 0.2, 0.35, 0.5];
+const RESEARCH_DISEASE_RATE = [1, 0.75, 0.55, 0.4];
+const RESEARCH_CURE_SPEED = [1, 1.5, 2, 3];
+const RESEARCH_TAX_BONUS = [1, 1.1, 1.2, 1.3];
+let research = { levels: {}, active: null };
+function researchLevel(key) {
+  return Math.max(0, Math.min(RESEARCH_MAX, research.levels[key] || 0));
+}
+function hasUniversity() {
+  return buildings.some(b => b.type === 'university');
+}
+// Wohnt dieses Haus im Einzugsbereich einer Universität?
+function hasUniversityCoverage(house) {
+  return buildings.some(u => u.type === 'university' && Math.hypot(u.x - house.x, u.y - house.y) <= u.def.radius);
+}
+// Gelehrte = Adlige (Stufe 3) in Häusern, die eine Universität in Reichweite
+// haben. Jedes Haus zählt einmal, auch wenn es mehrere Universitäten erreicht.
+function scholarCount() {
+  const unis = buildings.filter(b => b.type === 'university');
+  if (!unis.length) return 0;
+  let sum = 0;
+  for (const h of buildings) {
+    if (h.type !== 'house' || (h.tier || 0) < 3) continue;
+    if (unis.some(u => Math.hypot(u.x - h.x, u.y - h.y) <= u.def.radius)) sum += h.population || 0;
+  }
+  return sum;
+}
+// Warum eine Forschungsstufe (noch) nicht begonnen werden kann - null = geht.
+function researchBlocker(key) {
+  const lvl = researchLevel(key);
+  if (lvl >= RESEARCH_MAX) return 'vollständig erforscht';
+  if (research.active) return research.active.key === key ? 'wird gerade erforscht' : 'es läuft bereits eine andere Forschung';
+  if (!hasUniversity()) return 'keine Universität';
+  const stufe = RESEARCH_LEVELS[lvl];
+  const gelehrte = scholarCount();
+  if (gelehrte < stufe.scholars) return `braucht ${stufe.scholars} Gelehrte (${gelehrte} vorhanden)`;
+  if (treasury < stufe.cost) return `braucht ${stufe.cost} Münzen`;
+  return null;
+}
+function startResearch(key) {
+  const def = RESEARCH.find(r => r.key === key);
+  if (!def) return false;
+  const grund = researchBlocker(key);
+  if (grund) { setStatus(`${def.name}: ${grund}.`); return false; }
+  const lvl = researchLevel(key);
+  const stufe = RESEARCH_LEVELS[lvl];
+  treasury -= stufe.cost;
+  research.active = { key, level: lvl + 1, elapsed: 0, duration: stufe.time };
+  setStatus(`🎓 Forschung begonnen: ${def.icon} ${def.name} Stufe ${lvl + 1}.`);
+  AudioEngine.playCoins();
+  updateResourceUI();
+  return true;
+}
+function updateResearch(dt) {
+  const a = research.active;
+  if (!a) return;
+  if (!hasUniversity()) return; // ruht ohne Universität
+  a.elapsed += dt;
+  if (a.elapsed < a.duration) return;
+  const def = RESEARCH.find(r => r.key === a.key);
+  research.levels[a.key] = Math.max(researchLevel(a.key), a.level);
+  research.active = null;
+  if (def) {
+    const uni = buildings.find(b => b.type === 'university');
+    logEvent(`🎓 Forschung abgeschlossen: ${def.icon} ${def.name} Stufe ${a.level} – ${def.effect(a.level)}.`, 'discovery', uni || null);
+  }
+  AudioEngine.playFanfare();
+}
+function researchesDone() {
+  return RESEARCH.reduce((n, r) => n + researchLevel(r.key), 0);
+}
+
+// ---- Erfolge (NEU, v34.27) ---------------------------------------------------
+// Auszeichnungen, die sich im Lauf einer Partie nach und nach freischalten.
+// Jeder Erfolg ist ein Tabelleneintrag mit Symbol, Name, Beschreibung und
+// einer Prüffunktion über eine einmal je Prüfung erhobene Momentaufnahme
+// (achievementSnapshot) - so kostet auch eine lange Liste nur EINEN Gang über
+// die Gebäude. Ereignisse, die sich aus dem Zustand nicht mehr ablesen lassen
+// (versenkte Piraten, gelöschte Brände, Verkäufe am Kontor ...), zählt
+// `achStats` an den Stellen mit, an denen sie passieren.
+//
+// Einmal freigeschaltet bleibt ein Erfolg erhalten (gespeichert mit Spieltag).
+// Ein älterer Spielstand bekommt beim Laden alles, was er schon erreicht hat,
+// STILL gutgeschrieben - sonst prasselten beim Fortsetzen zwanzig Meldungen
+// auf einmal herein.
+const ACHIEVEMENT_CHECK_INTERVAL = 2000;
+const ACH_GROUPS = { build: '🏗️ Aufbau', people: '👥 Bevölkerung', economy: '💰 Wirtschaft', sea: '⛵ Seefahrt & Entdeckung', danger: '⚔️ Gefahren', culture: '🎓 Kultur & Wissen' };
+function achProd(c, g) { return Math.floor(c.produced[g] || 0); }
+const ACHIEVEMENTS = [
+  // Aufbau
+  { id: 'first_house', group: 'build', icon: '🏠', name: 'Erste Hütte', desc: 'Baue dein erstes Wohnhaus.', check: c => (c.types.house || 0) >= 1 },
+  { id: 'sawmill', group: 'build', icon: '🪚', name: 'Holz wird Brett', desc: 'Stelle 100 Bretter her.', progress: c => [achProd(c, 'plank'), 100] },
+  { id: 'roads', group: 'build', icon: '🛤️', name: 'Wegebauer', desc: 'Lege 100 Straßenkacheln an.', progress: c => [c.roads, 100] },
+  { id: 'stoneroads', group: 'build', icon: '🪨', name: 'Alle Wege führen …', desc: 'Pflastere 50 Kacheln als Steinweg.', progress: c => [c.stoneRoads, 50] },
+  { id: 'buildings50', group: 'build', icon: '🏗️', name: 'Baumeister', desc: 'Besitze 50 Gebäude gleichzeitig.', progress: c => [c.buildingCount, 50] },
+  { id: 'warehouse2', group: 'build', icon: '📦', name: 'Lagerverwalter', desc: 'Baue ein zweites Lagerhaus.', check: c => (c.types.warehouse || 0) >= 2 },
+  // Bevölkerung
+  { id: 'pop50', group: 'people', icon: '👥', name: 'Dorfgemeinschaft', desc: 'Erreiche 50 Einwohner.', progress: c => [c.pop, 50] },
+  { id: 'pop200', group: 'people', icon: '🏘️', name: 'Kleinstadt', desc: 'Erreiche 200 Einwohner.', progress: c => [c.pop, 200] },
+  { id: 'pop500', group: 'people', icon: '🏙️', name: 'Stadt', desc: 'Erreiche 500 Einwohner.', progress: c => [c.pop, 500] },
+  { id: 'pop1000', group: 'people', icon: '🌆', name: 'Metropole', desc: 'Erreiche 1000 Einwohner.', progress: c => [c.pop, 1000] },
+  { id: 'citizen', group: 'people', icon: '🎩', name: 'Erster Bürger', desc: 'Ein Haus steigt zum Bürgerhaus auf.', check: c => c.tierHouses[1] > 0 },
+  { id: 'merchant', group: 'people', icon: '💼', name: 'Erster Kaufmann', desc: 'Ein Haus steigt zum Kaufmannshaus auf.', check: c => c.tierHouses[2] > 0 },
+  { id: 'noble', group: 'people', icon: '👑', name: 'Erster Adliger', desc: 'Ein Haus steigt zum Adelssitz auf.', check: c => c.tierHouses[3] > 0 },
+  { id: 'nobles100', group: 'people', icon: '🏰', name: 'Hofstaat', desc: 'Beherberge 100 Adlige.', progress: c => [c.tierPop[3], 100] },
+  { id: 'happy', group: 'people', icon: '😊', name: 'Glückliche Insel', desc: 'Eine Insel mit mindestens 30 Einwohnern erreicht 90 % Stimmung.', check: c => c.happyIsland },
+  // Wirtschaft
+  { id: 'coins1000', group: 'economy', icon: '🪙', name: 'Wohlstand', desc: 'Habe 1000 Münzen in der Kasse.', progress: c => [Math.floor(treasury), 1000] },
+  { id: 'coins10000', group: 'economy', icon: '💰', name: 'Schatzkammer', desc: 'Habe 10 000 Münzen in der Kasse.', progress: c => [Math.floor(treasury), 10000] },
+  { id: 'rathaus', group: 'economy', icon: '⚖️', name: 'Steuereintreiber', desc: 'Baue ein Rathaus.', check: c => (c.types.rathaus || 0) >= 1 },
+  { id: 'bread', group: 'economy', icon: '🍞', name: 'Unser täglich Brot', desc: 'Backe 200 Brote.', progress: c => [achProd(c, 'bread'), 200] },
+  { id: 'tools', group: 'economy', icon: '🔨', name: 'Werkzeugmacher', desc: 'Schmiede 100 Werkzeuge.', progress: c => [achProd(c, 'tools'), 100] },
+  { id: 'wine', group: 'economy', icon: '🍷', name: 'Guter Jahrgang', desc: 'Keltere 50 Wein.', progress: c => [achProd(c, 'wine'), 50] },
+  { id: 'gem', group: 'economy', icon: '💎', name: 'Juwelenschleifer', desc: 'Schleife das erste Geschmeide.', check: c => achProd(c, 'gem') >= 1 },
+  { id: 'trader', group: 'economy', icon: '🏛️', name: 'Handelsherr', desc: 'Verkaufe 200 Waren am Kontor.', progress: c => [achStats.sold, 200] },
+  // Seefahrt & Entdeckung
+  { id: 'ship', group: 'sea', icon: '⛵', name: 'Stapellauf', desc: 'Baue dein erstes Schiff.', check: c => achStats.shipsBuilt >= 1 },
+  { id: 'fleet', group: 'sea', icon: '🚢', name: 'Flotte', desc: 'Besitze 8 Schiffe gleichzeitig.', progress: c => [ships.length, 8] },
+  { id: 'galleon', group: 'sea', icon: '🛳️', name: 'Stolz der Meere', desc: 'Baue eine Galeone.', check: c => achStats.galleons >= 1 },
+  { id: 'colony', group: 'sea', icon: '🗺️', name: 'Neue Ufer', desc: 'Besiedle eine zweite Insel.', progress: c => [c.settled, 2] },
+  { id: 'empire', group: 'sea', icon: '🏝️', name: 'Inselreich', desc: 'Besiedle 5 Inseln.', progress: c => [c.settled, 5] },
+  { id: 'climates', group: 'sea', icon: '🌍', name: 'Alle Klimazonen besiedelt', desc: 'Besiedle je eine Eisinsel, eine gemäßigte und eine heiße Insel.', progress: c => [c.climates, 3] },
+  { id: 'explorer', group: 'sea', icon: '🧭', name: 'Entdecker', desc: 'Entdecke 15 Inseln.', progress: c => [c.discovered, 15] },
+  { id: 'whales', group: 'sea', icon: '🐋', name: 'Walfänger', desc: 'Fange 10 Wale.', progress: c => [achProd(c, 'oil'), 10] },
+  // Gefahren
+  { id: 'pirate', group: 'danger', icon: '🏴‍☠️', name: 'Pirat versenkt', desc: 'Versenke ein Piratenschiff.', check: c => achStats.piratesSunk >= 1 },
+  { id: 'pirates10', group: 'danger', icon: '⚓', name: 'Schrecken der Piraten', desc: 'Versenke 10 Piratenschiffe.', progress: c => [achStats.piratesSunk, 10] },
+  { id: 'fire', group: 'danger', icon: '💧', name: 'Brandschutz', desc: 'Lass die Feuerwache einen Brand löschen.', check: c => achStats.firesOut >= 1 },
+  { id: 'cure', group: 'danger', icon: '⚕️', name: 'Heiler', desc: 'Lass den Medicus 5 kranke Häuser heilen.', progress: c => [achStats.cured, 5] },
+  // Kultur & Wissen
+  { id: 'culture', group: 'culture', icon: '🎭', name: 'Vorhang auf', desc: 'Baue ein Theater oder eine Kathedrale.', check: c => (c.types.theater || 0) + (c.types.cathedral || 0) >= 1 },
+  { id: 'cathedral', group: 'culture', icon: '⛪', name: 'Gotteshaus', desc: 'Baue eine Kathedrale.', check: c => (c.types.cathedral || 0) >= 1 },
+  { id: 'university', group: 'culture', icon: '🏫', name: 'Alma Mater', desc: 'Baue eine Universität.', check: c => (c.types.university || 0) >= 1 },
+  { id: 'research1', group: 'culture', icon: '🎓', name: 'Erste Erkenntnis', desc: 'Schließe eine Forschung ab.', check: c => researchesDone() >= 1 },
+  { id: 'research_all', group: 'culture', icon: '📚', name: 'Gelehrtenrepublik', desc: 'Erforsche alles bis zur höchsten Stufe.', progress: c => [researchesDone(), RESEARCH.length * RESEARCH_MAX] },
+  { id: 'week', group: 'culture', icon: '📅', name: 'Eine Woche Manfredville', desc: 'Spiele 7 Spieltage.', progress: c => [Math.floor(statsClock / DAY_LENGTH), 7] }
+];
+let achievements = {}; // id -> Spieltag der Freischaltung
+let achStats = { piratesSunk: 0, firesOut: 0, cured: 0, sold: 0, shipsBuilt: 0, galleons: 0, produced: {} };
+let achievementTimer = 0;
+let achievementsOpen = false, achievementsFilter = 'all';
+function resetAchievements() {
+  achievements = {};
+  achStats = { piratesSunk: 0, firesOut: 0, cured: 0, sold: 0, shipsBuilt: 0, galleons: 0, produced: {} };
+  achievementTimer = 0;
+}
+function achievementSnapshot() {
+  const c = { types: {}, pop: 0, tierHouses: [0, 0, 0, 0], tierPop: [0, 0, 0, 0], buildingCount: 0,
+    settled: 0, climates: 0, discovered: 0, roads: 0, stoneRoads: 0, happyIsland: false, produced: achStats.produced };
+  const inselPop = {};
+  const besiedelt = new Set();
+  for (const b of buildings) {
+    c.types[b.type] = (c.types[b.type] || 0) + 1;
+    c.buildingCount++;
+    const isl = islandOfBuilding(b);
+    if (isl >= 0) besiedelt.add(isl);
+    if (b.type === 'house') {
+      const t = Math.min(3, b.tier || 0);
+      c.pop += b.population || 0;
+      c.tierPop[t] += b.population || 0;
+      if ((b.population || 0) > 0) c.tierHouses[t]++;
+      inselPop[isl] = (inselPop[isl] || 0) + (b.population || 0);
+    }
+  }
+  c.settled = besiedelt.size;
+  c.climates = new Set([...besiedelt].map(id => islands[id] && islands[id].climate).filter(Boolean)).size;
+  c.discovered = islands.filter(i => i.discovered).length;
+  for (const id of Object.keys(inselPop)) {
+    const m = moodOf(Number(id));
+    if (inselPop[id] >= 30 && m !== null && m >= 90) c.happyIsland = true;
+  }
+  const n = CFG.mapSize;
+  for (let y = 0; y < n; y++) {
+    const row = map[y];
+    for (let x = 0; x < n; x++) {
+      if (!row[x].road) continue;
+      c.roads++;
+      if (row[x].stoneRoad) c.stoneRoads++;
+    }
+  }
+  return c;
+}
+function achievementState(a, c) {
+  if (a.progress) {
+    const [have, need] = a.progress(c);
+    return { done: have >= need, have: Math.min(have, need), need };
+  }
+  return { done: !!a.check(c) };
+}
+function checkAchievements(silent) {
+  const c = achievementSnapshot();
+  const neu = [];
+  for (const a of ACHIEVEMENTS) {
+    if (achievements[a.id]) continue;
+    if (achievementState(a, c).done) {
+      achievements[a.id] = silent ? 'aus früherem Spielstand' : gameDayLabel();
+      neu.push(a);
+    }
+  }
+  if (silent || !neu.length) { if (neu.length) updateAchievementButton(); return neu; }
+  for (const a of neu) {
+    logEvent(`🏆 Erfolg freigeschaltet: ${a.icon} ${a.name} – ${a.desc}`, 'achievement', null);
+    showAchievementToast(a);
+  }
+  AudioEngine.playFanfare();
+  updateAchievementButton();
+  if (achievementsOpen) renderAchievements();
+  return neu;
+}
+function updateAchievements(dt) {
+  achievementTimer += dt;
+  if (achievementTimer < ACHIEVEMENT_CHECK_INTERVAL) return;
+  achievementTimer = 0;
+  checkAchievements(false);
+}
+function achievementCount() {
+  return ACHIEVEMENTS.filter(a => achievements[a.id]).length;
+}
+function updateAchievementButton() {
+  const el = document.getElementById('achToggleCount');
+  if (el) el.textContent = `${achievementCount()}/${ACHIEVEMENTS.length}`;
+}
+// Kleine Einblendung unten in der Bildmitte; mehrere Erfolge auf einmal
+// erscheinen nacheinander statt übereinander.
+let achToastQueue = [], achToastBusy = false;
+function showAchievementToast(a) {
+  achToastQueue.push(a);
+  if (!achToastBusy) nextAchievementToast();
+}
+function nextAchievementToast() {
+  const el = document.getElementById('achToast');
+  const a = achToastQueue.shift();
+  if (!el || !a) { achToastBusy = false; return; }
+  achToastBusy = true;
+  el.innerHTML = `<span class="ach-toast-icon">${a.icon}</span><span><small>🏆 Erfolg freigeschaltet</small><b>${a.name}</b></span>`;
+  el.classList.add('show');
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(nextAchievementToast, 400);
+  }, 3600);
+}
+function renderAchievements() {
+  const el = document.getElementById('achPanel');
+  if (!el) return;
+  if (!achievementsOpen) { el.style.display = 'none'; return; }
+  const c = achievementSnapshot();
+  const filter = [['all', 'Alle'], ...Object.entries(ACH_GROUPS)];
+  const liste = ACHIEVEMENTS.filter(a => achievementsFilter === 'all' || a.group === achievementsFilter);
+  // Erreichte zuerst, innerhalb davon in Tabellenreihenfolge
+  liste.sort((x, y) => (achievements[y.id] ? 1 : 0) - (achievements[x.id] ? 1 : 0));
+  const rows = liste.map(a => {
+    const done = !!achievements[a.id];
+    const st = achievementState(a, c);
+    let rechts = '';
+    if (done) rechts = `<span class="ach-when">${achievements[a.id]}</span>`;
+    else if (st.need) rechts = `<span class="ach-bar"><i style="width:${Math.round(100 * st.have / st.need)}%"></i></span><span class="ach-when">${st.have}/${st.need}</span>`;
+    else rechts = '<span class="ach-when">🔒</span>';
+    return `<div class="ach-row${done ? ' done' : ''}"><span class="ach-icon">${a.icon}</span>`
+      + `<span class="ach-text"><b>${a.name}</b><small>${a.desc}</small></span><span class="ach-right">${rechts}</span></div>`;
+  }).join('');
+  el.innerHTML = `<div class="stats-head"><b>🏆 Erfolge – ${achievementCount()} von ${ACHIEVEMENTS.length}</b><span id="achClose">✕</span></div>`
+    + `<div class="stats-tabs">${filter.map(([k, l]) => `<button data-afilter="${k}" class="${achievementsFilter === k ? 'active' : ''}">${l}</button>`).join('')}</div>`
+    + rows;
+  el.style.display = 'block';
+  el.querySelector('#achClose').addEventListener('click', () => { achievementsOpen = false; renderAchievements(); });
+  el.querySelectorAll('[data-afilter]').forEach(b => b.addEventListener('click', () => { achievementsFilter = b.dataset.afilter; renderAchievements(); }));
 }
 let overviewOpen = false;
 function overviewIslands() {
@@ -14980,7 +15454,7 @@ function tryDemolish(gx, gy) {
   }
 }
 const PLACEABLE_TOOLS = ['woodcutter', 'sawmill', 'forester', 'farm', 'mill', 'bakery', 'mine', 'smelter', 'house', 'warehouse', 'hopfarm', 'tobaccofarm', 'spicefarm', 'cottonfarm', 'brewery', 'chapel', 'quarry', 'tavern', 'school', 'fishery', 'sheepfarm', 'weavery', 'tailor', 'hunter', 'smithy', 'coppersmelter', 'weaponsmith', 'harbor', 'kontor', 'rathaus', 'furhunter', 'furrier', 'cigarmaker', 'whaler', 'goldsmith', 'mint', 'lighthouse', 'firestation',
-  'vineyard', 'winery', 'jeweler', 'theater', 'cathedral', 'herbgarden', 'doctor', 'sailmaker'];
+  'vineyard', 'winery', 'jeweler', 'theater', 'cathedral', 'herbgarden', 'doctor', 'sailmaker', 'university'];
 function handleClick(gx, gy) {
   if (currentTool === 'road') { paintRoadAt(gx, gy); }
   else if (currentTool === 'stoneroad') { paintStoneRoadAt(gx, gy); }
@@ -15144,6 +15618,9 @@ function serializeGame() {
     pirateUnlocked, pirateTimer: Math.round(pirateTimer),
     explored: encodeFog(), // Nebel (v34.24)
     eventLog: eventLog.slice(-EVENT_LOG_MAX), // Ereignisprotokoll (v34.26)
+    achievements: Object.assign({}, achievements), // Erfolge (v34.27)
+    achStats: JSON.parse(JSON.stringify(achStats)),
+    research: { levels: Object.assign({}, research.levels), active: research.active ? Object.assign({}, research.active) : null }, // Forschung (v34.27)
     // Frachtrouten (v26, mehrstufig seit v32): eigenständige Spieler-
     // entscheidungen, die weder aus der Karte noch aus den Gebäuden ableitbar
     // sind - also gespeichert. Die Stationen stehen als Koordinatenliste drin;
@@ -15280,6 +15757,32 @@ function applySave(data) {
       const v = data.islandTaxRates[i];
       isl.taxRate = (typeof v === 'number' && TAX_RATES[v]) ? v : TAX_RATE_DEFAULT;
     });
+  }
+  // Erfolge und Forschung (v34.27): ältere Stände beginnen ohne beides; was
+  // sie schon erreicht haben, wird am Ende von applySave still gutgeschrieben.
+  resetAchievements();
+  if (data.achievements && typeof data.achievements === 'object') {
+    for (const a of ACHIEVEMENTS) if (typeof data.achievements[a.id] === 'string') achievements[a.id] = data.achievements[a.id];
+  }
+  if (data.achStats && typeof data.achStats === 'object') {
+    for (const k of Object.keys(achStats)) {
+      if (k === 'produced') continue;
+      if (typeof data.achStats[k] === 'number') achStats[k] = data.achStats[k];
+    }
+    if (data.achStats.produced && typeof data.achStats.produced === 'object') {
+      for (const g of Object.keys(data.achStats.produced)) if (typeof data.achStats.produced[g] === 'number') achStats.produced[g] = data.achStats.produced[g];
+    }
+  }
+  research = { levels: {}, active: null };
+  if (data.research && typeof data.research === 'object') {
+    for (const r of RESEARCH) {
+      const v = data.research.levels && data.research.levels[r.key];
+      if (typeof v === 'number') research.levels[r.key] = Math.max(0, Math.min(RESEARCH_MAX, Math.floor(v)));
+    }
+    const a = data.research.active;
+    if (a && RESEARCH.some(r => r.key === a.key) && typeof a.duration === 'number') {
+      research.active = { key: a.key, level: Math.max(1, Math.min(RESEARCH_MAX, a.level | 0)), elapsed: Math.max(0, a.elapsed || 0), duration: a.duration };
+    }
   }
   // Ereignisprotokoll (v34.26)
   eventLog = Array.isArray(data.eventLog) ? data.eventLog.filter(e => e && typeof e.text === 'string').slice(-EVENT_LOG_MAX) : [];
@@ -15504,6 +16007,10 @@ function applySave(data) {
   for (const s of ships) if (s.routeId && !routeById(s.routeId)) clearShipRoute(s);
   selectedShip = null;
   selectedBuilding = null;
+  // Erfolge (v34.27): was der geladene Stand schon erreicht hat, still gutschreiben
+  checkAchievements(true);
+  updateAchievementButton();
+  if (achievementsOpen) renderAchievements();
   renderBuildingInfo();
   updateResourceUI();
   renderMinimap();
@@ -15931,6 +16438,11 @@ document.getElementById('logToggle').addEventListener('click', () => {
   if (eventLogOpen) { eventLogUnread = 0; updateEventLogButton(); }
   renderEventLog();
 });
+document.getElementById('achToggle').addEventListener('click', () => {
+  achievementsOpen = !achievementsOpen;
+  renderAchievements();
+});
+updateAchievementButton();
 document.getElementById('statsToggle').addEventListener('click', () => {
   statsOpen = !statsOpen;
   renderStats();
@@ -17086,9 +17598,28 @@ const AudioEngine = (function () {
     }
   }
 
+  // Erfolg/Forschung (v34.27): kurze, helle Dreiklang-Fanfare - aufsteigend,
+  // damit sie sich klar von Glocke (Seuche) und Horn (Piraten) abhebt.
+  function playFanfare() {
+    if (!ctx || !sfxEnabled) return;
+    const t = ctx.currentTime;
+    const out = ensureSfxOut();
+    [[523.25, 0], [659.25, 0.11], [783.99, 0.22], [1046.5, 0.36]].forEach(([f, d]) => {
+      const o = ctx.createOscillator();
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(f, t + d);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t + d);
+      g.gain.exponentialRampToValueAtTime(0.09, t + d + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0004, t + d + (d > 0.3 ? 0.9 : 0.35));
+      o.connect(g); g.connect(out);
+      o.start(t + d); o.stop(t + d + 1);
+    });
+  }
+
   return {
     start, setMusicEnabled, setMusicVolume, setSfxEnabled, setNightFactor,
-    playPlagueBell,
+    playPlagueBell, playFanfare,
     // Piraten & Seegefechte (v34.22)
     playCannon, playPirateHorn, playShipSink,
     isStarted: () => started, state: () => (ctx ? ctx.state : 'none'),
@@ -17207,6 +17738,8 @@ function update(dt) {
   updateFires(dt); // Feuer-Ereignis (v34.7): seltener Zufallsbrand + Löschhelfer
   updateDisease(dt); // Seuche (v34.24)
   updateMood(dt); // Zufriedenheit je Insel (v34.26)
+  updateResearch(dt); // Forschung an der Universität (v34.27)
+  updateAchievements(dt); // Erfolge (v34.27)
   updateRoutes(dt); // Frachtrouten: Kurs setzen, laden, entladen (v26)
   dueBreadHouses.length = 0;
   dueBeerHouses.length = 0;
